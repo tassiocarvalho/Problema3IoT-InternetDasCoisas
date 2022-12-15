@@ -51,6 +51,15 @@ Sumário
 
 <h1 id="autores">Autores</h1>
 
+<a href="https://github.com/AlanaSampaio">Alana Sampaio</a>  
+<a href="https://github.com/tassiocarvalho">Tassio Carvalho</a>
 
 <h1 id="referencias">Referências</h1>
 
+[Datasheet - ESP8266](https://www.alldatasheet.com/view.jsp?Searchword=ESP8266&sField=4&gclid=Cj0KCQiAmaibBhCAARIsAKUlaKRSP5JzpmlF9JPnfCkdjKYD79a6Dcb_OL1NOG1STKnfcAP_e4Yg6s4aAjbzEALw_wcB)
+
+[MQTT](https://mqtt.org)
+
+[Paho - MQTT](https://www.eclipse.org/paho/files/jsdoc/index.html)
+
+[Orange Pi](http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-PC.html)
