@@ -35,6 +35,14 @@ Sumário
 
 <h1 id="tecnologias-utilizadas">Tecnologias utilizadas</h1>
 
+As seguintes ferramentas foram usadas na construção do projeto:
+
+- [Assembly](https://www.tutorialspoint.com/assembly_programming/assembly_basic_syntax.htm)
+- [JavaScript](https://www.javascript.com)
+- [Node.js](https://nodejs.org/en/)
+- [C](https://devdocs.io/c/)
+- [HTML](https://html.com)
+- [CSS](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
 
 <h1 id="pre-requisitos-e-instrucoes-de-instalacao">Pré-requisitos e instruções de instalação</h1>
 
