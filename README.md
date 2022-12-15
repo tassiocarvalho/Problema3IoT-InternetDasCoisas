@@ -1,6 +1,9 @@
 <h1 align="center">PROBLEMA 3 TEC 499 - IoT: A Internet das Coisas</h1>
 
-<p align="center">Escrever uma breve descrição</p>
+<p align="center">O problema proposto consiste em melhorias do problema proposto anteriormente (https://github.com/tassiocarvalho/Problema2InterfacesDeEntrada-Saida) sobre um protótipo de sistema de sensoriamento genérico. Desta forma, para acompanhar a modernização das tecnologias os requisitos mudaram para atender a nova demanda, portanto, o desenvolvimento de um sistema com sensores sem fio é o objetivo principal deste projeto.
+	
+O Single Board Computer (SBC) continuará exercendo o seu papel de comandar o sistema acompanhado dos requisitos do problema anterior e centralizar as informações para ser possível acessar os dados através da internet. Ademais, uma interface homem-máquina (IHM) para apresentações, em tempo real e o histórico das dez últimas medições de cada sensor e das leituras dos sensores tanto de forma remota quanto local fez-se necessário.
+</p>
 
 Sumário
 =================
