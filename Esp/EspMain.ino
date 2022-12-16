@@ -3,10 +3,8 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <PubSubClient.h>
-#include <TimedAction.h>
 
 
-//Definicoes
 #ifndef STASSID
 #define STASSID "INTELBRAS"
 #define STAPSK  "Pbl-Sistemas-Digitais"
@@ -20,41 +18,43 @@ const char* mqtt_server = "10.0.0.101";
 const char *mqtt_username = "aluno";
 const char *mqtt_password = "@luno*123";
 
+String address = "D0";
+// Comandos de resposta
+
+#define ANALOG_INPUT_VALUE "0x01"
+#define DIGITAL_INPUT_VALUE "0x02"
+#define LED_ON "0x03"
+#define LED_OFF "0x04"
+#define NODE_OK "0x200"
+
+// Comandos de requisição
+#define GET_ANALOG_INPUT_VALUE "0x04"
+#define GET_DIGITAL_INPUT_VALUE "0x05"
+#define SET_ON_NODEMCU_LED "0x06"
+#define SET_OFF_NODEMCU_LED "0x07"
+#define GET_NODE_CONNECTION_STATUS "0x08"
+
+// Definições dos tópicos
+#define ANALOG_SENSOR "leds/sensor-analogico"
+#define DIGITAL_SENSOR "leds/sensor-digital"
+#define REQUEST "leds/request"
+#define RESPONSE "leds/response"
+#define ADDRESS "leds/endereco"
+#define NODE_CONNECTION_STATUS "leds/status"
+
+// Endereço pino
+
+#define SENSOR_D0 "D0"
+#define SENSOR_D1 "D1"
+#define SENSOR_D2 "D2"
+#define SENSOR_D3 "D3"
+#define SENSOR_D4 "D4"
+#define SENSOR_D5 "D5"
+#define SENSOR_D6 "D6"
+#define SENSOR_D7 "D7"
+
 WiFiClient espClient;
-PubSubClient client(espClient);
-
-int tempo = 5;
-
-void publishTopic(){
-  float valor = analogRead(A0)*(3.3/1023.0);
-  char valorConv[4];
-  sprintf(valorConv, "%.1f", valor);
-  client.publish("VOLTAGE", valorConv);
-  
-  int d0Value = digitalRead(D0);
-  char d0valueConv[1];
-  sprintf(d0valueConv, "%d", d0Value);
-  client.publish("D0", d0valueConv);
-
-  int d1Value = digitalRead(D1);
-  char d1valueConv[1];
-  sprintf(d1valueConv, "%d", d1Value);
-  client.publish("D1", d1valueConv);
-}
-
-TimedAction proc_aux = TimedAction(2000, publishTopic);
-
-void callback(char* topic, byte* payload, unsigned int length) {
-  if(strcmp(topic,"TIME") == 0){
-    char aux[10];
-    
-    for (int i=0;i<length;i++) {
-      aux[i] = (char)payload[i];
-    }
-    tempo = atoi(aux);
-    proc_aux.setInterval(tempo*1000);
-  }
-}
+PubSubClient MQTT(espClient);
 
 void connectWifi_OTA(){
   Serial.begin(9600);
@@ -107,31 +107,130 @@ void connectWifi_OTA(){
 
 void reconnect_MQTT(){
   Serial.print("Attempting MQTT connection...");
-  String clientId = "ESP8266Client-";
-  clientId += String(random(0xffff), HEX);
-  if (client.connect(clientId.c_str(), mqtt_username, mqtt_password)) {
+  String clientId = "TP04/G01";
+  if (MQTT.connect(clientId.c_str(),mqtt_username,mqtt_password)) {
     Serial.println("connected");
-    client.publish("outTopic", "hello world");
-    client.subscribe("TIME");
+    MQTT.subscribe(REQUEST);
+    MQTT.subscribe(ADDRESS);
+    MQTT.publish(RESPONSE,"node conectada");
   } else {
     Serial.print("failed, rc=");
-    Serial.print(client.state());
+    Serial.print(MQTT.state());
     Serial.println(" try again in 5 seconds");
     delay(2000);
   }
 }
 
+void receivePackage(char* topic, byte* payload, unsigned int length) {
+  String msg;
+
+  //obtem a string do payload recebido
+  for (int i = 0; i < length; i++) {
+    char c = (char)payload[i];
+    msg += c;
+  }
+
+  if (strcmp(topic, REQUEST) == 0) {
+
+    if (msg == SET_ON_NODEMCU_LED) {
+      digitalWrite(LED_BUILTIN, LOW);
+      MQTT.publish(RESPONSE, LED_ON);
+    } else if (msg == SET_OFF_NODEMCU_LED) {
+      digitalWrite(LED_BUILTIN, HIGH);
+      MQTT.publish(RESPONSE, LED_OFF);
+    } else if (msg == GET_NODE_CONNECTION_STATUS) {
+      MQTT.publish(NODE_CONNECTION_STATUS,NODE_OK);
+    } else if (msg == GET_DIGITAL_INPUT_VALUE) {
+      getDigitalValue(address);
+    } else if (msg == GET_ANALOG_INPUT_VALUE){
+      getAnalogValue();
+    }
+  } else if (strcmp(topic, ADDRESS) == 0) {
+      address = msg;
+  }
+
+  Serial.print("Mensagem recebida: ");
+  Serial.println(msg);
+  Serial.println();
+}
+
+void getDigitalValue(String addr) {
+  int value;
+  char buf[4];
+  if (addr == "D0") {
+    value = digitalRead(D0);
+    snprintf(buf,4,"%ld",value);
+    MQTT.publish(DIGITAL_SENSOR, buf);
+  } else if (addr == "D1") {
+    value = digitalRead(D1);
+    snprintf(buf,4,"%ld",value);
+    MQTT.publish(DIGITAL_SENSOR, buf);
+  } else if (addr == "D2") {
+    value = digitalRead(D2);
+    snprintf(buf,4,"%ld",value);
+    MQTT.publish(DIGITAL_SENSOR, buf);
+  } else if (addr == "D3") {
+    value = digitalRead(D3);
+    snprintf(buf,4,"%ld",value);
+    MQTT.publish(DIGITAL_SENSOR, buf);
+  } else if (addr == "D4") {
+    value = digitalRead(D4);
+    snprintf(buf,4,"%ld",value);
+    MQTT.publish(DIGITAL_SENSOR, buf);
+  } else if (addr == "D5") {
+    value = digitalRead(D5);
+    snprintf(buf,4,"%ld",value);
+    MQTT.publish(DIGITAL_SENSOR, buf);
+  } else if (addr == "D6") {
+    value = digitalRead(D6);
+    snprintf(buf,4,"%ld",value);
+    MQTT.publish(DIGITAL_SENSOR, buf);
+  } else if (addr == "D7") {
+    value = digitalRead(D7);
+    snprintf(buf,4,"%ld",value);
+    MQTT.publish(DIGITAL_SENSOR, buf);
+  }
+}
+
+void getAnalogValue() {
+    int value = analogRead(A0);
+    char buf[5];
+    snprintf(buf,5,"%ld",value);
+    MQTT.publish(ANALOG_SENSOR, buf);
+}
+
 void setup() {
+  pinMode(LED_BUILTIN,OUTPUT);
+  digitalWrite(LED_BUILTIN,HIGH);
   connectWifi_OTA();
-  client.setServer(mqtt_server, 1883);
-  client.setCallback(callback);
+  MQTT.setServer(mqtt_server, 1883);
+  MQTT.setCallback(receivePackage);
+  
 }
 
 void loop() {
-  ArduinoOTA.handle();
-  if (!client.connected()) {
+  if(!MQTT.connected()){
     reconnect_MQTT();
   }
-  proc_aux.check();
-  client.loop();
+  ArduinoOTA.handle();
+  MQTT.loop();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
