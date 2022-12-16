@@ -68,7 +68,17 @@ Na Raspberry Pi também foi necessário fazer o uso de biblioteca ____ para perm
 
 <h1 id="desenvolvimento-da-solucao-do-problema">Desenvolvimento da solução do problema</h1>
 
-<p></p>
+<p>
+O desenvolvimento do projeto se iniciou com pesquisas relacionadas ao protocolo MQTT e suas funcionalidades, como acessar a um Broker privado e como os tópicos funcionam. 
+
+Houve também a necessidade de uma implementação de um código direcionada tanto a uma Orange Pi quanto uma Raspberry Pi.
+
+Posteriormente fizemos s modificação do código mostrado no problema dois substituindo a conexão UART com a comunicação via protocolo MQTT no código da NodeMCU e Rasp, definindo assim os tópicos e fazendo login no Broker para fim de testes.
+
+Por fim, o desenvolvimento do executável, utilizando uma biblioteca chama Paho-MQTT, com o objetivo de permitir a conexão também do executável com o Broker e assim com o protocolo MQTT.
+
+Devemos salientar que o projeto final não alcançou as expectativas por não cumprir os requisitos solicitados podendo ser complementado com as funcionalidades faltantes e melhorado as que constam neste repositório.
+</p>
 
 <h1 id="tecnologias-utilizadas">Tecnologias utilizadas</h1>
 
@@ -91,7 +101,70 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 <h2 id="pre-requisitos">Pré-requisitos</h2>
 
+<p>
+
+Antes de começar recomendamos que caso não possua na sua máquina os recursos listados a seguir faça a instalação:
+
+* Git
+* Arduiíno
+
+Além disto é bom ter um editor para visualizar e editar o código como o Visual Studio Code.
+</p>
+
 <h2 id="instrucoes-de-instalacao">Instruções de instalação</h2>
+
+<h3>Raspberry Pi</h3>
+
+<p>Para executar é necessário clonar o projeto na sua máquina usando o comando a seguir:</p>
+
+```
+https://github.com/tassiocarvalho/Problema3IoT-InternetDasCoisas.git
+```
+
+<p>Transfira os seguintes arquivos baixados para o Raspberry Pi:</p>
+
+
+```
+$ main.c
+$ makefile
+```
+
+
+<h3>ESP8266</h3>
+
+<p>Utilizando o software Arduino para utilizar compilar o código destinado a NodeMCU no arquivo abaixo:</p>
+
+
+```
+$ EspMain.ino
+```
+
+
+<p>E em seguida compilar o código na plataforma e fazer o upload.</p>
+
+<h3>Executável</h3>
+
+<p>Abrindo as pastas de nome:</p>
+
+
+```
+$ .vdcode
+$ scripts
+$ style
+```
+
+
+<p>E o arquivo index.html na IDE de sua preferência (recomendamos o Visual Studio Code) e abra o link abaixo em seu navegador (recomendamos o Chrome):</p>
+
+[index](http://127.0.0.1:5501/index.html)
+
+<p>Por fim, execute os seguintes comandos: </p>
+
+
+```
+$ make
+$ sudo /.main
+```
 
 
 <h1 id="instrucoes-de-uso-do-sistema">Instruções de uso do sistema</h1>
