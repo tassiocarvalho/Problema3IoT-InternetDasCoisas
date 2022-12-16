@@ -59,11 +59,11 @@ Segue abaixo o diagrama do sistema proposto e entendido pela equipe:
 
 <h1 id="metodologias-tecnicas-aplicadas-para-o-projeto">Metodologias e técnicas aplicadas para o projeto</h1>
 
-<p>Com o intuito de desenvolver um sistema com sensores sem fio a necessidade de encaminhar os dados através de um broker localizado no laboratório LEDS da Universidade Estadual de Feira de Santana. Para utilizar o Broker o protocolo MQTT fez-se necessário, onde essa comunicação possui um cliente responsável por fazer uma publicação (Publish) e transmitirá uma mensagem com um tópico de destino e o conteúdo da mensagem (também chamado de Payload). A mensagem em questão é transmitida para o Broker que é responsável por gerir e encaminhar um Subscriber, oriundo do tópico inscrito anteriormente. 
+<p>Com o intuito de desenvolver um sistema com sensores sem fio, a necessidade de encaminhar os dados através de um broker localizado no laboratório LEDS da Universidade Estadual de Feira de Santana. Para utilizar o Broker o protocolo MQTT fez-se necessário, onde essa comunicação possui um cliente responsável por fazer uma publicação (Publish) e transmitirá uma mensagem com um tópico de destino e o conteúdo da mensagem (também chamado de Payload). A mensagem em questão é transmitida para o Broker que é responsável por gerir e encaminhar um Subscriber, oriundo do tópico inscrito anteriormente. 
 
 Essa comunicação foi feita tanto para permitir a comunicação entre a Raspberry, a NodeMCU e o executável através desse processo fornecido pelo protocolo MQTT através do Broker.
 
-Na Raspberry Pi também foi necessário fazer o uso de biblioteca ____ para permitir que o código funcionasse também na Orange Pi.
+Na Raspberry Pi também foi necessário fazer o uso de biblioteca <i>WiringPi</i> para permitir que o código funcionasse também na Orange Pi.
 </p>
 
 <h1 id="desenvolvimento-da-solucao-do-problema">Desenvolvimento da solução do problema</h1>
@@ -169,9 +169,27 @@ $ sudo /.main
 
 <h1 id="instrucoes-de-uso-do-sistema">Instruções de uso do sistema</h1>
 
+<p>
+Com as instalações feitas corretamente e o comando <i>sudo ./main</i> já executado, um menu no próprio terminal irá mostrar as opções com as quais poderá interagir com o projeto.
+
+Ao escolher as opções 1 ou 2 será possível ver a LED do NodeMCU acender e apagar respectivamente, além de informar no LCD que essa ação foi executada. A terceira opção é a do sensor analógico, podendo modificar o seu valor no potenciômetro indo de 0 à 1024 e também informando no LCD tanto o sensor escolhido quanto o valor. Por último, os sensores digitais determinados nas opções 4 e 5 serão ativados ao pressionar os botões da placa, dessa forma, informando no LCD o sensor digital os valores 0, para quando o nível lógico do botão estiver baixo, ou seja, não estiver sendo pressionado e 1 para quando o valor estiver em nível lógico alto que corresponde à quando ele estiver sendo sim pressionado.
+
+Ao executar essas funcionalidades no terminal o executável irá receber também esses dados e informar os valores recebidos no gráfico, além de quando a NodeMCU estiver conectada.
+</p>
 
 <h1 id="descricao-e-analise-dos-testes-e-simulacoes">Descrição e análise dos testes e simulações</h1>
 
+<p>
+Para a elaboração do sistema foi necessário a execução de três testes pontuais sendo eles detalhados a seguir:
+
+* As funcionalidades ainda do problema dois com a biblioteca, possibilitando a execução do código não somente na Raspberry Pi Zero, mas também na Orange Pi e tendo como sinal de teste bem sucedido conseguir rodar um mesmo código em ambas as Respis.
+
+* O funcionamento do protocolo MQTT da NodeMCU e também na Rasp foram os alvos do segundo teste, tendo como objetivo ligar e apagar a LED da Node a partir dos comandos dispostos em um menu no terminal executado pela Rasp.
+
+* O terceiro e último teste teve como objetivo conectar também o executável na comunicação para que assim pudesse ter acesso às informações de dados tanto dos sensores quanto do funcionamento adequado da Node. Este teste não teve sucesso total pois o gráfico disposto no executável não mostrou os dados corretamente. 
+
+Infelizmente os testes não deram continuidade por não conseguirmos implementar mais funcionalidades a tempo ou corrigir erros existentes neste projeto.
+</p>
 
 <h1 id="autores">Autores</h1>
 
