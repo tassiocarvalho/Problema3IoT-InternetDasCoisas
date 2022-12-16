@@ -9,6 +9,7 @@ Sumário
 =================
 <!--ts-->
    * [Status do projeto](#status-do-projeto)
+   * [Features](#features)
    * [Descrição em alto nível do sistema](#descricao-em-alto-nivel-do-sistema)
    * [Metodologias e técnicas aplicadas para o projeto](#metodologias-tecnicas-aplicadas-para-o-projeto)
    * [Desenvolvimento da solução do problema](#desenvolvimento-da-solucao-do-problema)
@@ -27,14 +28,42 @@ Sumário
 	🚧 Em construção...  🚧
 </h4>
 
+<h1 id="features">Features</h1>
+
+- [x] Suporta até 8 sensores
+- [ ] Status dos sensores
+- [ ] Solicitação e resposta de comandos
+- [x] Comunicação utilizando o protocolo MQTT
+- [x] Gráfico com 10 medições
+- [ ] Ajuste de tempo na interface
+- [ ] Status da conexão
+- [ ] IHM no SBC
+- [x] Histórico de 10 medições
+- [ ] Interface para ajuste de tempo
+- [x] Dados via MQTT com a ESP
+
 <h1 id="descricao-em-alto-nivel-do-sistema">Descrição em alto nível do sistema</h1>
+
+<p>A solução apresentada neste repositório consiste no envio de informações via protocolo MQTT do NodeMCU para o broker e da Raspberry para o broker. As informações são enviadas para a Raspberry e para a aplicação feita, sendo possível, assim, exibir as informações do histórico tanto no LCD quanto no gráfico temporal disponível no executável.
+
+O principal fluxo de informações são os protocolos criados para efetuar a conexão MQTT sendo feitos os comandos de publish e subscribe para publicar e receber os dados fornecidos.
+
+O sistema continua sendo comandado pelo Single Board Computer (SBC), e todos os requisitos anteriormente solicitados para o sistema com a UART atendidos. O projeto em questão não conseguiu atender todos os requisitos listados no problema, sendo possível somente o suporte até 3 sensores, a comunicação MQTT, a interface remota com o gráfico exibindo as medições e os dados via MQTT com a ESP.
+
+Segue abaixo o diagrama do sistema proposto e entendido pela equipe:
+</p>
+
+![image](https://user-images.githubusercontent.com/71518539/207993462-f1f2579c-c097-4b0a-ad7b-9e75eb10ee92.png)
+
 
 
 <h1 id="metodologias-tecnicas-aplicadas-para-o-projeto">Metodologias e técnicas aplicadas para o projeto</h1>
 
+<p></p>
 
 <h1 id="desenvolvimento-da-solucao-do-problema">Desenvolvimento da solução do problema</h1>
 
+<p></p>
 
 <h1 id="tecnologias-utilizadas">Tecnologias utilizadas</h1>
 
@@ -42,7 +71,6 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 - [Assembly](https://www.tutorialspoint.com/assembly_programming/assembly_basic_syntax.htm)
 - [JavaScript](https://www.javascript.com)
-- [Node.js](https://nodejs.org/en/)
 - [C](https://devdocs.io/c/)
 - [HTML](https://html.com)
 - [CSS](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
