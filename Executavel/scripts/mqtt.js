@@ -6,14 +6,14 @@ const TOPIC_DIGITAL_SENSOR = "leds/sensor-digital"
 
 const nodeIndicator = document.getElementById("node-indicator")
 const brokerIndicator = document.getElementById("broker-indicator")
-
+ //Definindo variaveis que informam se o broker
 let brokerIsConnected = false
 let nodeIsConnected = false
 let nextStateLed = false
 
-var data = [];
+var data = []; //definindo lista para inserção de dados
 
-let pahoConfig = {
+let pahoConfig = { //Configurações para acessar o Broker
     hostname: "10.0.0.101",  //The hostname is the url, under which your FROST-Server resides.
     port: 9001,
               //The port number is the WebSocket-Port,
@@ -25,7 +25,7 @@ let client = new Paho.MQTT.Client(pahoConfig.hostname, Number(pahoConfig.port), 
 client.onConnectionLost = onConnectionLost;
 client.onMessageArrived = onMessageArrived;
 
-client.connect({
+client.connect({ //iniciando a conexão com o usuario e senha
     userName: "aluno",
     password: "@luno*123", 
     onSuccess: onConnect,
@@ -33,11 +33,11 @@ client.connect({
     reconnect:true,
 })
 
-function onFailureConnect(){
+function onFailureConnect(){ //caso a conexão falhe retorna essa informa essa mensagem
     console.log("Falha ao tentar se conectar")
 }
 
-function onConnect() {
+function onConnect() { //conexão bem sucedida entra nessa função
     // Once a connection has been made, make a subscription and send a message.
     console.log("Conexão estabelecida")
     brokerIsConnected = true
@@ -48,7 +48,7 @@ function onConnect() {
     client.send(TOPIC_ANALOG_SENSOR, "0x04")
 }
 
-function onConnectionLost(responseObject) {
+function onConnectionLost(responseObject) { //função para caso de conexão perdida
     console.log(responseObject)
     if (responseObject.errorCode !== 0) {
         console.log("onConnectionLost:" + responseObject.errorMessage);
@@ -57,7 +57,7 @@ function onConnectionLost(responseObject) {
     setConnectionStatus(brokerIndicator,brokerIsConnected)
 }
 
-function onMessageArrived(message) {
+function onMessageArrived(message) { //função para definir as mensagens de um subscriber
     console.log(message.destinationName)
     console.log(message.payloadString)
     data.push(Number(message.payloadString))
@@ -71,7 +71,7 @@ function onMessageArrived(message) {
             nextStateLed = true
             ledIcon.style.color="#fff"
         }
-    }else if(message.destinationName == TOPIC_NODE_CONECTION){
+    }else if(message.destinationName == TOPIC_NODE_CONECTION){ //condicao para conexão da node
         if(message.payloadString == "0x200"){
             if(!nodeIsConnected){
                 console.log("NodeMCU Conectado")
@@ -79,13 +79,13 @@ function onMessageArrived(message) {
                 setConnectionStatus(nodeIndicator,nodeIsConnected)
                 client.send(TOPIC_REQUEST,"0x09")
             }
-        } if(message.payloadString == "0x04"){
+        } if(message.payloadString == "0x04"){ //condicao para conexão com o sensor analogico bem sucedido
             console.log("Sensor analogico recebido")
         }
     }
 }
 
-function setConnectionStatus(element,status){
+function setConnectionStatus(element,status){ //função para enviar ondição de status
     if(status){
         element.classList.remove("disconnected")
         element.classList.add("connected")
@@ -96,7 +96,7 @@ function setConnectionStatus(element,status){
     
 }
 
-function checkNodeConnection(){
+function checkNodeConnection(){ //função para checar condição da Node
     client.send(TOPIC_NODE_CONECTION,"0x08")
 }
 
