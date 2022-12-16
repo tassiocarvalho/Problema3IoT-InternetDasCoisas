@@ -105,7 +105,7 @@ void connectWifi_OTA(){
   Serial.println(WiFi.localIP());
 }
 
-void reconnect_MQTT(){
+void reconnect_MQTT(){ //Reconectando conexão com o Broker
   Serial.print("Attempting MQTT connection...");
   String clientId = "TP04/G01";
   if (MQTT.connect(clientId.c_str(),mqtt_username,mqtt_password)) {
@@ -121,7 +121,7 @@ void reconnect_MQTT(){
   }
 }
 
-void receivePackage(char* topic, byte* payload, unsigned int length) {
+void receivePackage(char* topic, byte* payload, unsigned int length) { //Recebendo as mensagens do Broker
   String msg;
 
   //obtem a string do payload recebido
@@ -130,7 +130,7 @@ void receivePackage(char* topic, byte* payload, unsigned int length) {
     msg += c;
   }
 
-  if (strcmp(topic, REQUEST) == 0) {
+  if (strcmp(topic, REQUEST) == 0) { //Verificando se o tópico e a solicitação coincidem. comparando suas strings
 
     if (msg == SET_ON_NODEMCU_LED) {
       digitalWrite(LED_BUILTIN, LOW);
@@ -154,13 +154,13 @@ void receivePackage(char* topic, byte* payload, unsigned int length) {
   Serial.println();
 }
 
-void getDigitalValue(String addr) {
-  int value;
-  char buf[4];
-  if (addr == "D0") {
-    value = digitalRead(D0);
-    snprintf(buf,4,"%ld",value);
-    MQTT.publish(DIGITAL_SENSOR, buf);
+void getDigitalValue(String addr) { //Publicando valor no sensor digital e retornando valor no terminal
+  int value;      // definindo a variavel value como inteiro
+  char buf[4];    //buf de caracter de tamanho 4
+  if (addr == "D0") {    //verificando so a variavel addr é igual a d0
+    value = digitalRead(D0);    //atribuindo o valor do sensor digital a variavel value
+    snprintf(buf,4,"%ld",value);  //adicionando o valor do sensor digital no buffer
+    MQTT.publish(DIGITAL_SENSOR, buf);  //publicando o sensor digital no caso D0 com o seu valor do buffer
   } else if (addr == "D1") {
     value = digitalRead(D1);
     snprintf(buf,4,"%ld",value);
@@ -192,14 +192,14 @@ void getDigitalValue(String addr) {
   }
 }
 
-void getAnalogValue() {
+void getAnalogValue() { //Publicando valor no sensor analogico e retornando valor no terminal
     int value = analogRead(A0);
-    char buf[5];
-    snprintf(buf,5,"%ld",value);
-    MQTT.publish(ANALOG_SENSOR, buf);
+    char buf[5];    //definindo o tamanho do buffer/
+    snprintf(buf,5,"%ld",value);     //adicionando o valor analogico dentro do buffer
+    MQTT.publish(ANALOG_SENSOR, buf); //puclicando o tópico do sensor analogico com o seu buffer
 }
 
-void setup() {
+void setup() {      //setup
   pinMode(LED_BUILTIN,OUTPUT);
   digitalWrite(LED_BUILTIN,HIGH);
   connectWifi_OTA();
@@ -208,29 +208,10 @@ void setup() {
   
 }
 
-void loop() {
+void loop() { //Loop para reconexão com o Broker
   if(!MQTT.connected()){
     reconnect_MQTT();
   }
   ArduinoOTA.handle();
   MQTT.loop();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

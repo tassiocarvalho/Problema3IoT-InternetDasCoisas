@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> //Bibliotecas
 #include <string.h>
 #include "MQTTClient.h"
 #include <wiringPi.h>
@@ -12,13 +12,13 @@
 #define LCD_D6  26               //Data pin D6
 #define LCD_D7  27               //Data pin D7
 
-int lcd;
+int lcd; //definindo variavel lcd como inteiro
 
 #define BUTTON_1 19
-#define BUTTON_2 23
+#define BUTTON_2 23 //definindo pinagem dos botoes
 #define BUTTON_3 25
 
-#define BROKER_ADDRESS     "tcp://10.0.0.101:1883"
+#define BROKER_ADDRESS     "tcp://10.0.0.101:1883" //definindo informações para acessar o Broker
 #define USERNAME "aluno"
 #define PASSWORD "@luno*123"
 
@@ -27,7 +27,7 @@ int lcd;
 #define QOS2         2
 #define TIMEOUT     5000L
 
-#define GET_ANALOG_INPUT_VALUE "0x04"
+#define GET_ANALOG_INPUT_VALUE "0x04" //definindo valores a serem enviados
 #define GET_DIGITAL_INPUT_VALUE "0x05"
 #define SET_ON_NODEMCU_LED "0x06"
 #define SET_OFF_NODEMCU_LED "0x07"
@@ -60,7 +60,7 @@ void delivered(void *context, MQTTClient_deliveryToken dt)
     deliveredtoken = dt;
 }
 
-int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
+int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message) //função para seleção das opções do menu, troca de mensagens com o protocolo MQTT e retorno no LCD
 {
         printf("-------------MENU-----------\n\n");
         printf("1 - ACENDER LED\n");
@@ -78,13 +78,13 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     return 1;
 }
 
-void connlost(void *context, char *cause)
+void connlost(void *context, char *cause) //Funcão para conexão perdida
 {
     printf("\nConexão perdida\n");
     printf("     cause: %s\n", cause);
 }
 
-void send(char* topic, char* payload) {
+void send(char* topic, char* payload) { //enviando mensagem
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
     pubmsg.payload = payload;
     pubmsg.payloadlen = strlen(pubmsg.payload);
@@ -95,7 +95,7 @@ void send(char* topic, char* payload) {
     MQTTClient_waitForCompletion(client, token, TIMEOUT);
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char* argv[]) //Função principal
 {
     wiringPiSetup();
     lcd = lcdInit (2, 16, 4, LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7,0,0,0,0);
@@ -119,13 +119,7 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-        printf("-------------MENU-----------\n\n");
-        printf("1 - ACENDER LED\n");
-        printf("2 - APAGAR LED\n");
-        printf("3 - Sensor Analogico\n");
-        printf("4 - Sensor digital D0\n");
-        printf("5 - Sensor digital D1\n");
-        printf("8 - Sair\n");
+    
 
         MQTTClient_subscribe(client, RESPONSE, QOS2);
         MQTTClient_subscribe(client, ANALOG_SENSOR, QOS2);
@@ -133,7 +127,7 @@ int main(int argc, char* argv[])
     do
     {
         ch = getchar();
-        switch(ch){
+        switch(ch){ //Condições para opções do menu
                 case '1':
                         send(REQUEST,SET_ON_NODEMCU_LED);
                         lcdClear(lcd);
