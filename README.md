@@ -30,7 +30,7 @@ Sumário
 
 <h1 id="features">Features</h1>
 
-- [x] Suporta até 8 sensores
+- [ ] Suporta até 8 sensores
 - [ ] Status dos sensores
 - [ ] Solicitação e resposta de comandos
 - [x] Comunicação utilizando o protocolo MQTT
@@ -38,7 +38,7 @@ Sumário
 - [ ] Ajuste de tempo na interface
 - [ ] Status da conexão
 - [ ] IHM no SBC
-- [x] Histórico de 10 medições
+- [ ] Histórico de 10 medições
 - [ ] Interface para ajuste de tempo
 - [x] Dados via MQTT com a ESP
 
@@ -59,13 +59,25 @@ Segue abaixo o diagrama do sistema proposto e entendido pela equipe:
 
 <h1 id="metodologias-tecnicas-aplicadas-para-o-projeto">Metodologias e técnicas aplicadas para o projeto</h1>
 
-<p></p>
+<p>Com o intuito de desenvolver um sistema com sensores sem fio a necessidade de encaminhar os dados através de um broker localizado no laboratório LEDS da Universidade Estadual de Feira de Santana. Para utilizar o Broker o protocolo MQTT fez-se necessário, onde essa comunicação possui um cliente responsável por fazer uma publicação (Publish) e transmitirá uma mensagem com um tópico de destino e o conteúdo da mensagem (também chamado de Payload). A mensagem em questão é transmitida para o Broker que é responsável por gerir e encaminhar um Subscriber, oriundo do tópico inscrito anteriormente. 
+
+Essa comunicação foi feita tanto para permitir a comunicação entre a Raspberry, a NodeMCU e o executável através desse processo fornecido pelo protocolo MQTT através do Broker.
+
+Na Raspberry Pi também foi necessário fazer o uso de biblioteca ____ para permitir que o código funcionasse também na Orange Pi.
+</p>
 
 <h1 id="desenvolvimento-da-solucao-do-problema">Desenvolvimento da solução do problema</h1>
 
 <p></p>
 
 <h1 id="tecnologias-utilizadas">Tecnologias utilizadas</h1>
+
+<p>Foi necessário a utilização do Arduino IDE para executar os códigos na NodeMCU (ESP8266).
+
+Para fazer a interface remota, utilizando as linguagens: HTML, CSS e JavaScript foi necessário dispor da IDE Visual Studio Code.
+	
+Ademais, a Raspberry Pi Zero usamos também a IDE mencionada anteriormente, desta forma, conseguimos também programar as funcionalidades dos botões, chaves e o potenciômetro.</p>
+
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
